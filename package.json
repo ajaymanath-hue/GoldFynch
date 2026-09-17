@@ -10,7 +10,7 @@
     "dev:publish-helper": "bash publish-helper/run.sh",
     "dev:with-llm": "concurrently -k -n web,pub,llm -c cyan,green,magenta \"npm run dev\" \"npm run dev:publish-helper\" \"npm run dev:llm\"",
     "rag:reindex": "cd llm-agent && .venv/bin/python scripts/build_rag_index.py",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/copy-spa-404.mjs",
     "lint": "oxlint",
     "test": "vitest run",
     "preview": "vite preview"

@@ -19,16 +19,72 @@ type AppHeaderProps = {
   initials?: string
   avatarClassName?: string
   breadcrumbs?: AppHeaderBreadcrumb
+  variant?: 'default' | 'reviewset'
+  caseName?: string
+  searchPlaceholder?: string
 }
 
 export default function AppHeader({
   initials = 'GF',
   avatarClassName = 'bg-[#DC143C]',
   breadcrumbs,
+  variant = 'default',
+  caseName,
+  searchPlaceholder = 'New search for...',
 }: AppHeaderProps) {
   const { pathname } = useLocation()
   const homeActive = pathname === '/case'
   const isCaseDetail = pathname.startsWith('/case-detail/')
+
+  if (variant === 'reviewset') {
+    return (
+      <header className="z-50 shrink-0 bg-brandcolor-primary font-lato shadow-app-header">
+        <div className="flex w-full items-center gap-4 px-4 py-2.5 sm:px-6">
+          <div className="min-w-0 shrink-0 basis-40 sm:basis-52">
+            <p
+              className="truncate font-catamaran text-base font-semibold text-brandcolor-textstrong"
+              title={caseName}
+            >
+              {caseName ?? 'Case'}
+            </p>
+          </div>
+
+          <div className="relative mx-auto min-w-0 flex-1 max-w-3xl">
+            <label className="sr-only" htmlFor="reviewset-header-search">
+              Search
+            </label>
+            <input
+              id="reviewset-header-search"
+              type="search"
+              placeholder={searchPlaceholder}
+              className="w-full rounded-md border-0 bg-brandcolor-white py-2 pl-3 pr-10 text-sm text-brandcolor-textstrong placeholder:text-brandcolor-textweak shadow-sm outline-none ring-1 ring-brandcolor-strokeweak focus:ring-2 focus:ring-brandcolor-secondary"
+            />
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <GoogleDuotoneIcon name="search" className="text-[20px] !text-brandcolor-strokestrong" />
+            </span>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium text-brandcolor-textstrong transition-colors hover:bg-black/5"
+              aria-label="Help"
+            >
+              <GoogleDuotoneIcon name="help_outline" className="text-[20px] !text-brandcolor-textstrong" />
+              <span className="hidden sm:inline">Help</span>
+            </button>
+            <button
+              type="button"
+              className="inline-flex size-9 items-center justify-center rounded-md text-brandcolor-textstrong transition-colors hover:bg-black/5"
+              aria-label="Menu"
+            >
+              <GoogleDuotoneIcon name="menu" className="text-[22px] !text-brandcolor-textstrong" />
+            </button>
+          </div>
+        </div>
+      </header>
+    )
+  }
 
   return (
     <header className="z-50 shrink-0 bg-brandcolor-white font-lato shadow-app-header">

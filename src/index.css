@@ -94,7 +94,7 @@
   --shadow-sm: 0 1px 2px rgb(18 24 32 / 0.06);
   --shadow-md: 0 4px 12px rgb(18 24 32 / 0.08);
   --shadow-lg: 0 12px 24px rgb(18 24 32 / 0.12);
-  --shadow-button-press: inset 3px 3px 10px 0 rgb(26 26 26 / 0.33);
+  --shadow-button-press: inset 3px 3px 10px 0 rgb(26 26 26 / 0.22);
   --shadow-border-inset-strokelight: inset 0 0 0 1px rgb(var(--color-brandcolor-strokelight));
   --shadow-border-inset-secondary: inset 0 0 0 1.5px rgb(var(--color-brandcolor-secondary));
   --shadow-border-inset-secondary-press: inset 0 0 0 1.5px rgb(var(--color-brandcolor-secondary)),
@@ -220,4 +220,30 @@ body {
   background-size: 20px 12px;
   opacity: 0.2;
   pointer-events: none;
+}
+
+/* Lean thin scrollbars for dense panels */
+.scrollbar-lean {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-brandcolor-strokeweak)) transparent;
+}
+
+.scrollbar-lean::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-lean::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-lean::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--color-brandcolor-strokeweak));
+  border-radius: 9999px;
+}
+
+.scrollbar-lean::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }

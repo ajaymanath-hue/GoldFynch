@@ -31,7 +31,11 @@ export default function CaseWorkspaceLayout({
                   return (
                     <li key={item.id}>
                       <Link
-                        to={`/case-detail/${caseRow.id}/${item.id}`}
+                        to={
+                          item.id === 'review-sets'
+                            ? `/reviewset-old/${caseRow.id}`
+                            : `/case-detail/${caseRow.id}/${item.id}`
+                        }
                         className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
                           isActive
                             ? 'bg-brandcolor-secondaryfill font-medium text-brandcolor-secondary'

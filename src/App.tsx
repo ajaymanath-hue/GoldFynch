@@ -12,6 +12,8 @@ import CasePage from '@/pages/case'
 import CaseDetailPage from '@/pages/case-detail'
 import LoadingPage from '@/pages/loading'
 import NewCasePage from '@/pages/new-case'
+import ReviewsetOldPage from '@/pages/reviewset-old'
+import ReviewsetDetailsPage from '@/pages/reviewset-details'
 import CatalogAllPage from '@/pages/catalog/CatalogAllPage'
 import CatalogBookmarksPage from '@/pages/catalog/CatalogBookmarksPage'
 import CatalogHomePage from '@/pages/catalog/CatalogHomePage'
@@ -28,14 +30,21 @@ function CaseDetailIndexRedirect() {
 }
 
 export default function App() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<Navigate to="/landing" replace />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/case" element={<CasePage />} />
         <Route path="/case-detail/:caseId" element={<CaseDetailIndexRedirect />} />
         <Route path="/case-detail/:caseId/:section" element={<CaseDetailPage />} />
+        <Route path="/reviewset-old/:caseId" element={<ReviewsetOldPage />} />
+        <Route
+          path="/reviewset-details/:caseId/:reviewSetId"
+          element={<ReviewsetDetailsPage />}
+        />
         <Route path="/new-case" element={<NewCasePage />} />
         <Route element={<MainLayout />}>
           <Route path="/landing" element={<LandingPage />} />
