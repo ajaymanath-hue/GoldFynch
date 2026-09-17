@@ -188,18 +188,18 @@ export default function DocumentControlPanel({
   }
 
   return (
-    <div className="flex h-full flex-col text-sm">
-      <div className="border-b border-brandcolor-strokeweak p-3">
+    <div className="flex h-full min-w-0 flex-col text-sm">
+      <div className="min-w-0 border-b border-brandcolor-strokeweak p-3">
         <label className="sr-only" htmlFor="doc-control-search">
           Search documents
         </label>
-        <div className="relative">
+        <div className="relative min-w-0">
           <input
             id="doc-control-search"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-md border border-brandcolor-strokeweak bg-brandcolor-white py-1.5 pl-2 pr-8 text-sm outline-none focus:border-brandcolor-secondary"
+            className="w-full min-w-0 rounded-md border border-brandcolor-strokeweak bg-brandcolor-white py-1.5 pl-2 pr-8 text-sm outline-none focus:border-brandcolor-secondary"
           />
           <GoogleDuotoneIcon
             name="search"
@@ -208,14 +208,14 @@ export default function DocumentControlPanel({
         </div>
 
         <div
-          className={`mt-3 rounded-md border p-2.5 ${
+          className={`mt-3 min-w-0 overflow-hidden rounded-md border box-border p-2.5 ${
             myProgress.percent >= 100
               ? 'border-transparent bg-[color-mix(in_srgb,#10b981_13%,white)]'
               : 'border-brandcolor-strokeweak bg-brandcolor-fill'
           }`}
         >
-          <div className="flex items-center justify-between gap-2">
-            <label className={`${TIP_TRIGGER} inline-flex shrink-0 cursor-pointer items-center gap-2`}>
+          <div className="flex min-w-0 items-center justify-between gap-1">
+            <label className={`${TIP_TRIGGER} inline-flex min-w-0 cursor-pointer items-center gap-2`}>
               <button
                 type="button"
                 role="switch"
@@ -232,7 +232,7 @@ export default function DocumentControlPanel({
                   }`}
                 />
               </button>
-              <span className="whitespace-nowrap text-sm font-medium text-brandcolor-textstrong">
+              <span className="truncate text-sm font-medium text-brandcolor-textstrong">
                 Auto review
               </span>
               <span id="auto-review-help" className="sr-only">
@@ -244,7 +244,7 @@ export default function DocumentControlPanel({
               />
             </label>
 
-            <div className="flex shrink-0 items-center gap-0.5">
+            <div className="flex shrink-0 items-center">
               <button
                 type="button"
                 onClick={toggleBulkMode}
@@ -263,7 +263,7 @@ export default function DocumentControlPanel({
                   }`}
                 />
               </button>
-              <div className="inline-flex items-center" role="group" aria-label="Document navigation">
+              <div className="inline-flex -space-x-1.5 items-center" role="group" aria-label="Document navigation">
                 <button
                   type="button"
                   onClick={goPrev}
