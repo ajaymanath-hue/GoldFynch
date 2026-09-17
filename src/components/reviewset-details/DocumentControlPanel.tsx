@@ -325,12 +325,14 @@ export default function DocumentControlPanel({
 
           <div className="mt-4 space-y-2">
             <div>
-              <div className="mb-1 flex items-baseline justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brandcolor-textstrong">
+              <div className="mb-1 flex min-w-0 items-baseline justify-between gap-2">
+                <span className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-brandcolor-textstrong">
                   <span className="size-1.5 shrink-0 rounded-full bg-brandcolor-secondary" aria-hidden />
-                  My review progress
+                  <span className="truncate" title="My review progress">
+                    My review progress
+                  </span>
                 </span>
-                <span className="shrink-0 text-sm text-brandcolor-textstrong">
+                <span className="shrink-0 text-[13px] text-brandcolor-textstrong">
                   <span className="font-semibold tabular-nums">{myDone}</span>
                   <span className="font-normal">/{total} </span>
                   <span className="font-semibold tabular-nums">({myProgress.percent.toFixed(1)}%)</span>
@@ -344,12 +346,14 @@ export default function DocumentControlPanel({
               </div>
             </div>
             <div>
-              <div className="mb-1 flex items-baseline justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brandcolor-textstrong">
+              <div className="mb-1 flex min-w-0 items-baseline justify-between gap-2">
+                <span className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-brandcolor-textstrong">
                   <span className="size-1.5 shrink-0 rounded-full bg-emerald-500" aria-hidden />
-                  Team&apos;s review progress
+                  <span className="truncate" title="Team's review progress">
+                    Team&apos;s review progress
+                  </span>
                 </span>
-                <span className="shrink-0 text-sm text-brandcolor-textstrong">
+                <span className="shrink-0 text-[13px] text-brandcolor-textstrong">
                   <span className="font-semibold tabular-nums">{teamDone}</span>
                   <span className="font-normal">/{total} </span>
                   <span className="font-semibold tabular-nums">({teamProgress.percent.toFixed(1)}%)</span>
