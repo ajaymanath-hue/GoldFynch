@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import GoogleDuotoneIcon from '@/components/GoogleDuotoneIcon'
+import { publicUrl } from '@/lib/publicUrl'
 
 const NAV_ITEM_CLASS =
   'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-4 py-3 text-base text-brandcolor-strokestrong transition-colors hover:bg-brandcolor-fill'
@@ -92,7 +93,7 @@ export default function AppHeader({
         <div className="flex min-w-0 flex-1 items-center gap-4">
           <Link to="/case" className="inline-flex shrink-0 items-center" aria-label="GoldFynch home">
             <img
-              src="/landing/goldfynch-bird.png"
+              src={publicUrl('landing/goldfynch-bird.png')}
               alt="GoldFynch"
               className="h-9 w-auto object-contain"
               width={36}

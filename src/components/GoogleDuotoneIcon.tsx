@@ -8,6 +8,7 @@ export default function GoogleDuotoneIcon({ name, className = '' }: GoogleDuoton
   return (
     <span
       className={`material-icons-outlined inline-flex shrink-0 items-center justify-center leading-none text-brandcolor-strokeweak ${className}`}
+      style={{ fontFamily: "'Material Icons Outlined'" }}
       aria-hidden
     >
       {name}

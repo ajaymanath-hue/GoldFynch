@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { publicUrl } from '@/lib/publicUrl'
 
 const REDIRECT_DELAY_MS = 10_000
 
@@ -18,7 +19,7 @@ export default function LoadingPage() {
     <main className="flex min-h-dvh items-center justify-center bg-brandcolor-white font-lato text-brandcolor-textstrong">
       <div className="flex flex-col items-center px-6">
         <img
-          src="/landing/goldfynch-bird.png"
+          src={publicUrl('landing/goldfynch-bird.png')}
           alt="GoldFynch"
           className="h-12 w-auto object-contain"
           width={48}

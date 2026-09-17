@@ -27,6 +27,7 @@ import {
   RiUploadCloud2Line,
 } from '@remixicon/react'
 import BrandLogo from '@/components/BrandLogo'
+import { publicUrl } from '@/lib/publicUrl'
 
 const HERO_FEATURES = [
   'Supports native documents, PSTs, MBOX, Load file productions, & more',
@@ -204,7 +205,7 @@ function WhyBrandTitle() {
       <span className="flex flex-wrap items-center justify-center gap-2 font-catamaran text-4xl font-semibold tracking-tight text-brandcolor-textstrong sm:text-[2.5rem]">
         <span>Why</span>
         <img
-          src="/landing/logo.png"
+          src={publicUrl('landing/logo.png')}
           alt="GoldFynch"
           className="h-10 w-auto sm:h-12"
           width={401}
@@ -315,7 +316,7 @@ export default function LandingPage() {
 
           <div className="mt-14 overflow-hidden rounded-lg border border-white/10 bg-[#111] shadow-lg">
             <img
-              src="/landing/dashboard-mock.png"
+              src={publicUrl('landing/dashboard-mock.png')}
               alt="GoldFynch workspace preview with search, sidebar tools, and case panels"
               className="block h-auto w-full"
               width={1200}
@@ -391,7 +392,7 @@ export default function LandingPage() {
           <div className="mt-12 grid items-start gap-10 md:grid-cols-2 md:gap-12">
             <div className="overflow-hidden rounded-md border border-brandcolor-strokeweak bg-brandcolor-white shadow-card">
               <img
-                src="/landing/summary-panel.png"
+                src={publicUrl('landing/summary-panel.png')}
                 alt="Case summary panel with usage stats and top file types chart"
                 className="block h-auto w-full"
                 width={740}
@@ -487,7 +488,7 @@ export default function LandingPage() {
 
           <div className="mt-12 overflow-hidden rounded-md border border-brandcolor-strokeweak bg-brandcolor-white shadow-card">
             <img
-              src="/landing/production-wizard.png"
+              src={publicUrl('landing/production-wizard.png')}
               alt="Production wizard final review with file statistics and selected production options"
               className="block h-auto w-full"
               width={1024}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { publicUrl } from '@/lib/publicUrl'
 
 type BrandLogoProps = {
   to?: string
@@ -15,7 +16,7 @@ export default function BrandLogo({
   return (
     <Link to={to} className={`inline-flex shrink-0 items-center ${className}`} aria-label="GoldFynch home">
       <img
-        src="/landing/logo.png"
+        src={publicUrl('landing/logo.png')}
         alt="GoldFynch"
         className={imgClassName}
         width={401}

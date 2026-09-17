@@ -215,11 +215,28 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/landing/charlie-brown-pattern.png');
+  background-image: var(--charlie-brown-pattern);
   background-repeat: repeat;
   background-size: 20px 12px;
   opacity: 0.2;
   pointer-events: none;
+}
+
+/* Material Icons: keep ligatures working under Tailwind */
+.material-icons-outlined {
+  font-family: 'Material Icons Outlined', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
 }
 
 /* Lean thin scrollbars for dense panels */

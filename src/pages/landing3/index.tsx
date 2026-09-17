@@ -27,6 +27,7 @@ import {
   RiUploadCloud2Line,
 } from '@remixicon/react'
 import BrandLogo from '@/components/BrandLogo'
+import { publicUrl } from '@/lib/publicUrl'
 
 const WHY_FEATURES = [
   {
@@ -319,7 +320,7 @@ export default function LandingPage() {
           <div id="how-it-works" className="flex justify-center md:justify-end">
             <div className="w-full max-w-md overflow-hidden rounded-lg border border-white/10 bg-[#111] shadow-lg sm:max-w-lg">
               <img
-                src="/landing/dashboard-mock.png"
+                src={publicUrl('landing/dashboard-mock.png')}
                 alt="See how it works — GoldFynch workspace preview"
                 className="block h-auto w-full"
                 width={800}
@@ -416,7 +417,7 @@ export default function LandingPage() {
             <span className="flex flex-wrap items-center justify-center gap-2 font-catamaran text-4xl font-semibold tracking-tight text-brandcolor-textstrong sm:text-[2.5rem]">
               <span>Why</span>
               <img
-                src="/landing/logo.png"
+                src={publicUrl('landing/logo.png')}
                 alt="GoldFynch"
                 className="h-10 w-auto sm:h-12"
                 width={401}
@@ -434,7 +435,7 @@ export default function LandingPage() {
             {WHY_FEATURES.map((item) => (
               <article key={item.title} className="flex flex-col items-start">
                 <img
-                  src="/landing/goldfynch-bird.png"
+                  src={publicUrl('landing/goldfynch-bird.png')}
                   alt=""
                   className="h-12 w-12 object-contain sm:h-14 sm:w-14"
                   width={56}
@@ -505,7 +506,7 @@ export default function LandingPage() {
               <div className="absolute inset-3 flex items-center justify-center sm:inset-4">
                 <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
                   <img
-                    src="/landing/hero-stack-1.png"
+                    src={publicUrl('landing/hero-stack-1.png')}
                     alt=""
                     className="relative z-[1] w-[90%] rounded-[0.5rem] border border-brandcolor-strokeweak object-cover shadow-md"
                     width={1024}
@@ -514,7 +515,7 @@ export default function LandingPage() {
                     decoding="async"
                   />
                   <img
-                    src="/landing/hero-stack-2.png"
+                    src={publicUrl('landing/hero-stack-2.png')}
                     alt=""
                     className="relative z-[2] -mt-[58%] ml-[6%] w-[90%] rounded-[0.5rem] border border-brandcolor-strokeweak object-cover shadow-md"
                     width={1024}
@@ -523,7 +524,7 @@ export default function LandingPage() {
                     decoding="async"
                   />
                   <img
-                    src="/landing/hero-stack-3.png"
+                    src={publicUrl('landing/hero-stack-3.png')}
                     alt=""
                     className="relative z-[3] -mt-[58%] ml-[12%] w-[90%] rounded-[0.5rem] border border-brandcolor-strokeweak object-cover shadow-lg"
                     width={1024}
@@ -641,7 +642,7 @@ export default function LandingPage() {
 
           <div className="mt-12 overflow-hidden rounded-md border border-brandcolor-strokeweak bg-brandcolor-white shadow-card">
             <img
-              src="/landing/production-wizard.png"
+              src={publicUrl('landing/production-wizard.png')}
               alt="Production wizard final review with file statistics and selected production options"
               className="block h-auto w-full"
               width={1024}

@@ -35,7 +35,7 @@ export default function App() {
   return (
     <BrowserRouter basename={basename}>
       <Routes>
-        <Route path="/" element={<Navigate to="/landing" replace />} />
+        <Route path="/" element={<Navigate to="/reviewset-old/1" replace />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/case" element={<CasePage />} />
         <Route path="/case-detail/:caseId" element={<CaseDetailIndexRedirect />} />
