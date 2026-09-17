@@ -232,7 +232,7 @@ export default function DocumentControlPanel({
                   }`}
                 />
               </button>
-              <span className="whitespace-nowrap text-xs font-medium text-brandcolor-textstrong">
+              <span className="whitespace-nowrap text-sm font-medium text-brandcolor-textstrong">
                 Auto review
               </span>
               <span id="auto-review-help" className="sr-only">
@@ -240,8 +240,7 @@ export default function DocumentControlPanel({
               </span>
               <HoverTip
                 label={AUTO_REVIEW_TIP}
-                wrap
-                className="left-0 top-full z-[60] mt-1 w-max max-w-[200px]"
+                className="left-0 top-full z-[60] mt-1"
               />
             </label>
 
@@ -327,11 +326,11 @@ export default function DocumentControlPanel({
           <div className="mt-4 space-y-2">
             <div>
               <div className="mb-1 flex items-baseline justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-brandcolor-textstrong">
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brandcolor-textstrong">
                   <span className="size-1.5 shrink-0 rounded-full bg-brandcolor-secondary" aria-hidden />
                   My review progress
                 </span>
-                <span className="shrink-0 text-xs text-brandcolor-textstrong">
+                <span className="shrink-0 text-sm text-brandcolor-textstrong">
                   <span className="font-semibold tabular-nums">{myDone}</span>
                   <span className="font-normal">/{total} </span>
                   <span className="font-semibold tabular-nums">({myProgress.percent.toFixed(1)}%)</span>
@@ -346,11 +345,11 @@ export default function DocumentControlPanel({
             </div>
             <div>
               <div className="mb-1 flex items-baseline justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-brandcolor-textstrong">
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brandcolor-textstrong">
                   <span className="size-1.5 shrink-0 rounded-full bg-emerald-500" aria-hidden />
                   Team&apos;s review progress
                 </span>
-                <span className="shrink-0 text-xs text-brandcolor-textstrong">
+                <span className="shrink-0 text-sm text-brandcolor-textstrong">
                   <span className="font-semibold tabular-nums">{teamDone}</span>
                   <span className="font-normal">/{total} </span>
                   <span className="font-semibold tabular-nums">({teamProgress.percent.toFixed(1)}%)</span>
@@ -369,7 +368,7 @@ export default function DocumentControlPanel({
         {showBulkBar ? (
           <div className="mt-2 space-y-2">
             <div className="flex items-center justify-between gap-2 rounded-md border border-brandcolor-strokeweak bg-brandcolor-white px-2.5 py-2">
-              <span className="inline-flex items-center gap-1.5 text-xs text-brandcolor-textstrong">
+              <span className="inline-flex items-center gap-1.5 text-sm text-brandcolor-textstrong">
                 <span className="inline-flex min-w-5 items-center justify-center rounded bg-brandcolor-strokeweak px-1.5 py-0.5 font-medium tabular-nums">
                   {checkedIds.size}
                 </span>
@@ -459,7 +458,7 @@ export default function DocumentControlPanel({
                     className="shrink-0 text-[18px] !text-brandcolor-strokestrong"
                   />
                   <span
-                    className={`min-w-0 truncate text-xs leading-snug ${nameClass}${
+                    className={`min-w-0 truncate text-sm leading-snug ${nameClass}${
                       isManuallyUnreviewed ? ' italic' : ''
                     }`}
                     title={doc.name}

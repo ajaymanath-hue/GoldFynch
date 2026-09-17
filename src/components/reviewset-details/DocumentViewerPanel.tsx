@@ -76,7 +76,7 @@ export default function DocumentViewerPanel({
                 }`}
               />
             </button>
-            <span className="whitespace-nowrap text-xs font-medium text-brandcolor-textstrong">
+            <span className="whitespace-nowrap text-sm font-medium text-brandcolor-textstrong">
               Reviewed
             </span>
             <HoverTip label={REVIEWED_TIP} className="right-0 top-full mt-1" />
