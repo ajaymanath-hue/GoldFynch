@@ -121,6 +121,7 @@ export default function DocumentControlPanel({
   const [bulkMoreOpen, setBulkMoreOpen] = useState(false)
   const [bulkOverflow, setBulkOverflow] = useState<BulkOverflow>('labels')
   const [selectAllActive, setSelectAllActive] = useState(false)
+  const [allReviewedDisplay, setAllReviewedDisplay] = useState(false)
   const [navActive, setNavActive] = useState<'prev' | 'next' | null>(null)
   const [scrollTop, setScrollTop] = useState(0)
   const [viewportHeight, setViewportHeight] = useState(400)
@@ -134,8 +135,10 @@ export default function DocumentControlPanel({
   const teamDone = documents.filter(
     (d) => d.reviewStatus === 'reviewed' || d.reviewStatus === 'in-review',
   ).length
-  const myProgress = formatProgress(myDone, DISPLAY_TOTAL)
-  const teamProgress = formatProgress(teamDone, DISPLAY_TOTAL)
+  const myDoneDisplay = allReviewedDisplay ? DISPLAY_TOTAL : myDone
+  const teamDoneDisplay = allReviewedDisplay ? DISPLAY_TOTAL : teamDone
+  const myProgress = formatProgress(myDoneDisplay, DISPLAY_TOTAL)
+  const teamProgress = formatProgress(teamDoneDisplay, DISPLAY_TOTAL)
 
   const filtered = useMemo(() => {
     return documents.filter((doc) => {
@@ -276,6 +279,7 @@ export default function DocumentControlPanel({
   function toggleBulkMode() {
     if (bulkMode) {
       setSelectAllActive(false)
+      setAllReviewedDisplay(false)
       onCheckedIdsChange(new Set())
       onBulkModeChange(false)
     } else {
@@ -287,6 +291,9 @@ export default function DocumentControlPanel({
     const ids = Array.from(checkedIds)
     if (ids.length === 0) return
     onMarkReviewed(ids, selectionDisplayCount)
+    if (selectAllActive || selectionDisplayCount >= DISPLAY_TOTAL) {
+      setAllReviewedDisplay(true)
+    }
     setActiveBulkAction('review')
     setBulkMoreOpen(false)
   }
@@ -296,6 +303,7 @@ export default function DocumentControlPanel({
     if (ids.length > 0) onUnmarkReviewed(ids, selectionDisplayCount)
     setActiveBulkAction(null)
     setSelectAllActive(false)
+    setAllReviewedDisplay(false)
     onCheckedIdsChange(new Set())
     setBulkMoreOpen(false)
   }
@@ -396,17 +404,13 @@ export default function DocumentControlPanel({
                 onClick={toggleBulkMode}
                 aria-pressed={bulkMode}
                 aria-label="Bulk select"
-                className={`inline-flex size-7 items-center justify-center rounded ${
-                  bulkMode
-                    ? 'border border-brandcolor-strokeweak bg-brandcolor-white text-brandcolor-secondary'
-                    : 'text-brandcolor-strokestrong hover:bg-brandcolor-fill'
+                className={`${BORDERED_ICON_BTN} ${
+                  bulkMode ? 'bg-brandcolor-white' : 'bg-transparent'
                 }`}
               >
-                <GoogleDuotoneIcon
-                  name="file_copy"
-                  className={`text-[18px] ${
-                    bulkMode ? '!text-brandcolor-secondary' : '!text-brandcolor-strokestrong'
-                  }`}
+                <FontAwesomeIcon
+                  name="list-check"
+                  className="text-[13px] !text-brandcolor-strokestrong"
                 />
               </button>
               <div
@@ -483,7 +487,7 @@ export default function DocumentControlPanel({
                   My review progress
                 </span>
                 <span className="shrink-0 text-[13px] text-brandcolor-textstrong">
-                  <span className="font-semibold tabular-nums">{formatCount(myDone)}</span>
+                  <span className="font-semibold tabular-nums">{formatCount(myDoneDisplay)}</span>
                   <span className="font-normal">/{formatCount(DISPLAY_TOTAL)} </span>
                   <span className="font-semibold tabular-nums">({myProgress.percent.toFixed(1)}%)</span>
                 </span>
@@ -504,7 +508,7 @@ export default function DocumentControlPanel({
                   </span>
                 </span>
                 <span className="shrink-0 text-[13px] text-brandcolor-textstrong">
-                  <span className="font-semibold tabular-nums">{formatCount(teamDone)}</span>
+                  <span className="font-semibold tabular-nums">{formatCount(teamDoneDisplay)}</span>
                   <span className="font-normal">/{formatCount(DISPLAY_TOTAL)} </span>
                   <span className="font-semibold tabular-nums">({teamProgress.percent.toFixed(1)}%)</span>
                 </span>
@@ -732,11 +736,7 @@ export default function DocumentControlPanel({
             </div>
             <button
               type="button"
-              onClick={() => {
-                onCheckedIdsChange(new Set())
-                setActiveBulkAction(null)
-                setSelectAllActive(false)
-              }}
+              onClick={handleClearSelection}
               className="w-full rounded-md bg-brandcolor-secondaryfill px-3 py-2 text-center text-sm font-semibold text-brandcolor-secondary outline-none hover:bg-brandcolor-secondaryfill focus-visible:ring-1 focus-visible:ring-brandcolor-secondary"
             >
               Clear selection
