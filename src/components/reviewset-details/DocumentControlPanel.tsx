@@ -438,7 +438,7 @@ export default function DocumentControlPanel({
           return (
             <li key={doc.id}>
               <div
-                className={`${TIP_TRIGGER} flex w-full items-center gap-1 border-l-[3px] px-3 py-2 transition-colors ${
+                className={`${TIP_TRIGGER} flex w-full items-center gap-1 border-b border-brandcolor-strokeweak border-l-[3px] px-3 py-2 transition-colors ${
                   isManuallyUnreviewed ? 'border-l-amber-500' : 'border-l-transparent'
                 } ${isOpen ? 'bg-brandcolor-fill' : 'hover:bg-brandcolor-fill'}`}
               >
