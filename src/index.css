@@ -264,3 +264,23 @@ body {
   width: 0;
   height: 0;
 }
+
+/*
+ * FA6 overrides `.fa` / `.fa:before { content: var(--fa) }`, which blanks FA4-only
+ * glyphs like file-pdf-o. Restore FA4 font + content so the PDF icon paints reliably.
+ */
+.fa.fa-file-pdf-o {
+  display: inline-block;
+  font-family: FontAwesome !important;
+  font-weight: normal !important;
+  font-style: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa.fa-file-pdf-o::before {
+  content: '\f1c1' !important;
+  font-family: FontAwesome !important;
+}
+

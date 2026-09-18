@@ -123,12 +123,17 @@ function saveOverrides(caseId: string, reviewSetId: string, ids: Set<string>) {
   sessionStorage.setItem(overrideStorageKey(caseId, reviewSetId), JSON.stringify(Array.from(ids)))
 }
 
-/** 3 reviewed (me), 13 in-review (team), rest pending. */
+/** 3 reviewed (me); first 7 team dots; doc-31 team stripe (C); doc-36 overlap (D); 4 children. */
 function buildMockDocuments(): ReviewDocument[] {
-  return DOC_NAMES.map((name, index) => {
+  const parents = DOC_NAMES.map((name, index) => {
     let reviewStatus: ReviewStatus = 'pending'
     if (index < 3) reviewStatus = 'reviewed'
-    else if (index < 16) reviewStatus = 'in-review'
+    else if (index < 7) reviewStatus = 'in-review'
+
+    // Solution C: team review left stripe on doc-31
+    if (index === 30) reviewStatus = 'in-review'
+    // Solution D: 5th-from-last you reviewed + team overlap
+    if (index === 35) reviewStatus = 'reviewed'
 
     const kind: ReviewDocument['kind'] =
       name.endsWith('.jpg') || name.endsWith('.png') ? 'image' : 'pdf'
@@ -140,6 +145,29 @@ function buildMockDocuments(): ReviewDocument[] {
       reviewStatus,
     }
   })
+
+  const childSpecs: { parentId: string; name: string; kind: ReviewDocument['kind'] }[] = [
+    { parentId: 'doc-5', name: 'Attachment_Screenshot.jpg', kind: 'image' },
+    { parentId: 'doc-12', name: 'Exhibit_A_Redline.pdf', kind: 'pdf' },
+    { parentId: 'doc-20', name: 'Embedded_Spreadsheet.pdf', kind: 'pdf' },
+    { parentId: 'doc-28', name: 'Inline_Image_Capture.png', kind: 'image' },
+  ]
+
+  const docs: ReviewDocument[] = []
+  for (const parent of parents) {
+    docs.push(parent)
+    const child = childSpecs.find((c) => c.parentId === parent.id)
+    if (child) {
+      docs.push({
+        id: `${parent.id}-c1`,
+        name: child.name,
+        kind: child.kind,
+        reviewStatus: 'pending',
+        parentId: parent.id,
+      })
+    }
+  }
+  return docs
 }
 
 const INITIAL_DOCUMENTS = buildMockDocuments()
@@ -236,12 +264,12 @@ export default function ReviewsetDetailsPage() {
     })
   }, [])
 
-  const addOverridesForAutoMarked = useCallback((ids: string[]) => {
+  const addManualOverrides = useCallback((ids: string[]) => {
     setManualUnreviewedIds((prev) => {
       const next = new Set(prev)
       let changed = false
       for (const id of ids) {
-        if (autoMarkedRef.current.has(id) && !next.has(id)) {
+        if (!next.has(id)) {
           next.add(id)
           changed = true
         }
@@ -259,12 +287,12 @@ export default function ReviewsetDetailsPage() {
     setDocuments((prev) =>
       prev.map((d) => (d.id === docId ? { ...d, reviewStatus: 'reviewed' } : d)),
     )
-    setAutoMarkedIds((prev) => {
-      if (prev.has(docId)) return prev
-      const next = new Set(prev)
+    if (!autoMarkedRef.current.has(docId)) {
+      const next = new Set(autoMarkedRef.current)
       next.add(docId)
-      return next
-    })
+      autoMarkedRef.current = next
+      setAutoMarkedIds(next)
+    }
   }, [])
 
   const handleSelect = useCallback(
@@ -302,7 +330,7 @@ export default function ReviewsetDetailsPage() {
       )
       showToast('1 document marked as reviewed')
     } else {
-      addOverridesForAutoMarked([selectedDoc.id])
+      addManualOverrides([selectedDoc.id])
       setDocuments((prev) =>
         prev.map((doc) =>
           doc.id === selectedDoc.id ? { ...doc, reviewStatus: 'pending' } : doc,
@@ -325,7 +353,7 @@ export default function ReviewsetDetailsPage() {
   function handleUnmarkReviewed(ids: string[], displayCount = ids.length) {
     if (ids.length === 0) return
     const idSet = new Set(ids)
-    addOverridesForAutoMarked(ids)
+    addManualOverrides(ids)
     setDocuments((prev) =>
       prev.map((doc) => (idSet.has(doc.id) ? { ...doc, reviewStatus: 'pending' } : doc)),
     )

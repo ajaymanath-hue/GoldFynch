@@ -10,6 +10,7 @@ export type ReviewDocument = {
   name: string
   kind: 'pdf' | 'image'
   reviewStatus: ReviewStatus
+  parentId?: string
 }
 
 type DocumentControlPanelProps = {
@@ -68,6 +69,24 @@ type BulkOverflow = 'labels' | 'icons' | 'compact'
 const STATUS_DOT: Record<'in-review', { className: string; label: string }> = {
   'in-review': { className: 'bg-emerald-500', label: 'Team reviewing' },
 }
+
+/** First 7 docs always show the team (green) indicator. */
+function isTeamReviewedDoc(id: string) {
+  const n = Number(id.replace(/^doc-/, ''))
+  return Number.isFinite(n) && n >= 1 && n <= 7
+}
+
+/** Solution C — green left stripe + team tip on doc-31. */
+function isLastDoc(id: string) {
+  return id === 'doc-31'
+}
+
+/** Solution D — 5th-from-last overlap tooltip on doc-36. */
+function isFifthFromLast(id: string) {
+  return id === 'doc-36'
+}
+
+const TEAM_OVERLAP_TIP = 'Also actively being reviewed by Team'
 
 function formatCount(n: number) {
   return n.toLocaleString('en-US')
@@ -270,8 +289,21 @@ export default function DocumentControlPanel({
 
   function toggleChecked(id: string) {
     const next = new Set(checkedIds)
-    if (next.has(id)) next.delete(id)
-    else next.add(id)
+    const childIds = filtered.filter((doc) => doc.parentId === id).map((doc) => doc.id)
+    const isParentWithChildren = childIds.length > 0
+
+    if (next.has(id)) {
+      next.delete(id)
+      if (isParentWithChildren) {
+        for (const childId of childIds) next.delete(childId)
+      }
+    } else {
+      next.add(id)
+      if (isParentWithChildren) {
+        for (const childId of childIds) next.add(childId)
+      }
+    }
+
     setSelectAllActive(false)
     onCheckedIdsChange(next)
   }
@@ -364,7 +396,7 @@ export default function DocumentControlPanel({
         <div
           className={`mt-3 min-w-0 overflow-hidden rounded-md border box-border p-2.5 ${
             myProgress.percent >= 100
-              ? 'border-transparent bg-[color-mix(in_srgb,#10b981_13%,white)]'
+              ? 'border-transparent bg-[color-mix(in_srgb,color-mix(in_srgb,#10b981_13%,white)_60%,white)]'
               : 'border-brandcolor-strokeweak bg-brandcolor-fill'
           }`}
         >
@@ -761,20 +793,33 @@ export default function DocumentControlPanel({
               const isOpen = doc.id === selectedId
               const isChecked = checkedIds.has(doc.id)
               const isManuallyUnreviewed = manualUnreviewedIds.has(doc.id)
-              const statusMeta =
-                doc.reviewStatus === 'in-review' ? STATUS_DOT['in-review'] : null
+              const showTeamDot =
+                doc.reviewStatus === 'in-review' ||
+                isTeamReviewedDoc(doc.id) ||
+                isLastDoc(doc.id) ||
+                isFifthFromLast(doc.id)
+              const statusMeta = showTeamDot ? STATUS_DOT['in-review'] : null
+              const showTeamOverlapTip =
+                isLastDoc(doc.id) ||
+                (isFifthFromLast(doc.id) && doc.reviewStatus === 'reviewed')
               const nameClass = nameClassForDoc(
                 doc,
                 isOpen,
                 bulkMode && isChecked && doc.reviewStatus === 'pending',
               )
 
+              const leftBorderClass = isManuallyUnreviewed
+                ? 'border-l-amber-500'
+                : isLastDoc(doc.id)
+                  ? 'border-l-emerald-500'
+                  : 'border-l-transparent'
+
               return (
                 <div key={doc.id} role="listitem" style={{ height: ROW_HEIGHT }}>
                   <div
-                    className={`${TIP_TRIGGER} flex h-full w-full items-center gap-1 border-b border-brandcolor-strokeweak border-l-[3px] px-3 transition-colors ${
-                      isManuallyUnreviewed ? 'border-l-amber-500' : 'border-l-transparent'
-                    } ${isOpen ? 'bg-brandcolor-fill' : 'hover:bg-brandcolor-fill'}`}
+                    className={`${TIP_TRIGGER} flex h-full w-full items-center gap-1 border-b border-brandcolor-strokeweak border-l-[3px] px-3 transition-colors ${leftBorderClass} ${
+                      isOpen ? 'bg-brandcolor-fill' : 'hover:bg-brandcolor-fill'
+                    }`}
                   >
                     {bulkMode ? (
                       <input
@@ -789,10 +834,18 @@ export default function DocumentControlPanel({
                     <button
                       type="button"
                       onClick={() => onSelect(doc.id)}
-                      className="flex min-w-0 flex-1 items-center gap-1.5 text-left"
+                      className={`flex min-w-0 flex-1 items-center gap-1.5 text-left ${
+                        doc.parentId ? 'pl-3' : ''
+                      }`}
                     >
+                      {doc.parentId ? (
+                        <FontAwesomeIcon
+                          name="turn-down"
+                          className="shrink-0 text-[11px] !text-brandcolor-strokestrong"
+                        />
+                      ) : null}
                       <FontAwesomeIcon
-                        name={doc.kind === 'image' ? 'file-image-o' : 'file-pdf-o'}
+                        name="file-pdf-o"
                         className="shrink-0 text-[13px] !text-brandcolor-strokestrong"
                       />
                       <span
@@ -818,7 +871,17 @@ export default function DocumentControlPanel({
                       </span>
                     </button>
                     {isManuallyUnreviewed ? (
-                      <HoverTip label="You removed review" className="right-2 top-1/2 -translate-y-1/2" />
+                      <HoverTip
+                        variant="dark"
+                        label="You removed review"
+                        className="right-2 top-1/2 -translate-y-1/2"
+                      />
+                    ) : showTeamOverlapTip ? (
+                      <HoverTip
+                        variant="dark"
+                        label={TEAM_OVERLAP_TIP}
+                        className="left-8 top-full z-[60] mt-1"
+                      />
                     ) : null}
                   </div>
                 </div>
