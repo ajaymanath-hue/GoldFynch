@@ -67,7 +67,7 @@ export default function DocumentViewerPanel({
               aria-checked={reviewed}
               onClick={() => onReviewedChange(!reviewed)}
               className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${
-                reviewed ? 'bg-brandcolor-secondary' : 'bg-brandcolor-strokeweak'
+                reviewed ? 'bg-emerald-500' : 'bg-brandcolor-strokeweak'
               }`}
             >
               <span

@@ -311,26 +311,38 @@ export default function ReviewsetDetailsPage() {
     }
   }
 
-  function handleMarkReviewed(ids: string[]) {
+  function handleMarkReviewed(ids: string[], displayCount = ids.length) {
     if (ids.length === 0) return
     const idSet = new Set(ids)
     clearOverride(ids)
     setDocuments((prev) =>
       prev.map((doc) => (idSet.has(doc.id) ? { ...doc, reviewStatus: 'reviewed' } : doc)),
     )
-    const n = ids.length
+    const n = displayCount
     showToast(`${n} document${n === 1 ? '' : 's'} marked as reviewed`)
   }
 
-  function handleUnmarkReviewed(ids: string[]) {
+  function handleUnmarkReviewed(ids: string[], displayCount = ids.length) {
     if (ids.length === 0) return
     const idSet = new Set(ids)
     addOverridesForAutoMarked(ids)
     setDocuments((prev) =>
       prev.map((doc) => (idSet.has(doc.id) ? { ...doc, reviewStatus: 'pending' } : doc)),
     )
-    const n = ids.length
+    const n = displayCount
     showToast(`${n} document${n === 1 ? '' : 's'} reset to unreviewed`)
+  }
+
+  function handleTagSelected(ids: string[], displayCount = ids.length) {
+    if (ids.length === 0) return
+    const n = displayCount
+    showToast(`Added tag to ${n} document${n === 1 ? '' : 's'}`)
+  }
+
+  function handleUntagSelected(ids: string[], displayCount = ids.length) {
+    if (ids.length === 0) return
+    const n = displayCount
+    showToast(`Removed tag from ${n} document${n === 1 ? '' : 's'}`)
   }
 
   if (!caseRow) {
@@ -388,6 +400,8 @@ export default function ReviewsetDetailsPage() {
             onSelect={handleSelect}
             onMarkReviewed={handleMarkReviewed}
             onUnmarkReviewed={handleUnmarkReviewed}
+            onTagSelected={handleTagSelected}
+            onUntagSelected={handleUntagSelected}
             bulkMode={bulkMode}
             onBulkModeChange={setBulkMode}
             checkedIds={checkedIds}

@@ -42,9 +42,9 @@ export default function ReviewsetDetailLayout({
   documentDetails,
 }: ReviewsetDetailLayoutProps) {
   const control = useHorizontalResize({
-    initialWidth: 280,
+    initialWidth: 320,
     minWidth: 280,
-    maxWidth: 480,
+    maxWidth: 640,
   })
   const details = useHorizontalResize({
     initialWidth: 300,
